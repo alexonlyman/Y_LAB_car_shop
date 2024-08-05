@@ -1,0 +1,1 @@
+2024-08-05 23:30:37 INFO  org.alex_group.logging.AuditLog - curretn user User{id=1, firstname='sdf', lastname='dfg', age=11, role=USER}
