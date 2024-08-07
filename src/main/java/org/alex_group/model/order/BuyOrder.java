@@ -5,7 +5,9 @@ import org.alex_group.model.users.User;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-
+/**
+ * The BuyOrder class represents an order for buying a car.
+ */
 public class BuyOrder {
     private static int nextId = 1;
     private Integer id;
@@ -14,6 +16,13 @@ public class BuyOrder {
     private Car car;
     private boolean approve = false;
 
+    /**
+     * Constructs a new BuyOrder object with the specified parameters.
+     *
+     * @param localDateTime the date and time when the order was created
+     * @param user          the user who made the order
+     * @param car           the car being ordered
+     */
     public BuyOrder(LocalDateTime localDateTime, User user, Car car) {
         this.id = nextId++;
         this.localDateTime = localDateTime;

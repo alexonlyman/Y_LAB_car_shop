@@ -4,6 +4,7 @@ import org.alex_group.model.cars.Car;
 import org.alex_group.repository.carRepo.CarRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 /**
  * Implementation of the CarService interface that manages car-related operations.
@@ -23,12 +24,13 @@ public class CarServiceImpl implements CarService {
     /**
      * Retrieves all cars from the repository and prints them.
      *
-     * @return a list of all cars
+     * @return a map of all cars
      */
     @Override
-    public List<Car> findAllCars() {
-       repository.findAllCars().forEach(System.out::println);
-       return repository.findAllCars();
+    public Map<Integer,Car> findAllCars() {
+        Map<Integer, Car> allCars = repository.findAllCars();
+        System.out.println(allCars);
+        return allCars;
     }
 
     /**
@@ -73,10 +75,9 @@ public class CarServiceImpl implements CarService {
         scanner.nextLine();
 
         Car carToUpdate = null;
-        for (Car car : repository.findAllCars()) {
-            if (car.getId() == id) {
-                carToUpdate = car;
-                break;
+        for (Map.Entry<Integer, Car> entry : repository.findAllCars().entrySet()) {
+            if (entry.getKey() == id) {
+                carToUpdate = entry.getValue();
             }
         }
 
@@ -156,10 +157,10 @@ public class CarServiceImpl implements CarService {
      * Finds cars based on user-provided parameters.
      *
      * @param scanner the Scanner to read user input
-     * @return a list of cars that match the search criteria
+     * @return a map of cars that match the search criteria
      */
     @Override
-    public List<Car> findCarBy(Scanner scanner) {
+    public Map<Integer,Car> findCarBy(Scanner scanner) {
         System.out.println("Для поиска автомобиля по параметрам введите следующую информацию:");
         scanner.nextLine();
         System.out.println("Бренд (или нажмите Enter для пропуска): ");
@@ -185,13 +186,15 @@ public class CarServiceImpl implements CarService {
             }
         }
 
-        List<Car> result = repository.findBy(brand, mark, maxPrice);
+        Map<Integer,Car> result = repository.findBy(brand, mark, maxPrice);
 
         if (result.isEmpty()) {
             System.out.println("По вашему запросу ничего не найдено.");
         } else {
             System.out.println("Найденные автомобили:");
-            result.forEach(System.out::println);
+            result.forEach((id, car) ->
+                    System.out.printf("ID: %d, Car: %s%n", id, car)
+            );
         }
 
         return result;

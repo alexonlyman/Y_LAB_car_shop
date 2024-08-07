@@ -4,7 +4,9 @@ import org.alex_group.model.users.User;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-
+/**
+ * The ServiceOrder class represents an order for a service.
+ */
 public class ServiceOrder {
     private static int nextId = 1;
     private Integer id;
@@ -12,7 +14,12 @@ public class ServiceOrder {
     private LocalDateTime localDateTime;
     private boolean approve;
 
-
+    /**
+     * Constructs a new ServiceOrder object with the specified parameters.
+     *
+     * @param user          the user who made the service order
+     * @param localDateTime the date and time when the service order was created
+     */
     public ServiceOrder( User user, LocalDateTime localDateTime) {
         this.id = nextId++;
         this.user = user;

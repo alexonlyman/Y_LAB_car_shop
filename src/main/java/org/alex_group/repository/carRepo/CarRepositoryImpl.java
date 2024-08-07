@@ -7,17 +7,20 @@ import java.util.*;
  * Implementation of the CarRepository interface that manages a collection of cars.
  */
 public class CarRepositoryImpl implements CarRepository {
-    private final List<Car> cars = new ArrayList<>();
+    private final Map<Integer, Car> cars = new HashMap<>();
 
     public CarRepositoryImpl() {
-        cars.addAll(Arrays.asList(
-                new Car("Toyota", "Camry", 2022, 30000, "Japan", "Silver",5),
-                new Car("Honda", "Civic", 2021, 25000, "Japan", "Blue",5),
-                new Car("Ford", "Mustang", 2023, 45000, "USA", "Red",5),
-                new Car("BMW", "X5", 2022, 60000, "Germany", "Black",5),
-                new Car("Mercedes-Benz", "C-Class", 2023, 55000, "Germany", "White",5),
-                new Car("Volkswagen", "Golf", 2021, 28000, "Germany", "Green",5)
-        ));
+        List<Car> carList = Arrays.asList(
+                new Car("Toyota", "Camry", 2022, 30000, "Japan", "Silver", 5),
+                new Car("Honda", "Civic", 2021, 25000, "Japan", "Blue", 5),
+                new Car("Ford", "Mustang", 2023, 45000, "USA", "Red", 5),
+                new Car("BMW", "X5", 2022, 60000, "Germany", "Black", 5),
+                new Car("Mercedes-Benz", "C-Class", 2023, 55000, "Germany", "White", 5),
+                new Car("Volkswagen", "Golf", 2021, 28000, "Germany", "Green", 5)
+        );
+        for (Car car : carList) {
+            cars.put(car.getId(), car);
+        }
     }
 
     /**
@@ -27,17 +30,17 @@ public class CarRepositoryImpl implements CarRepository {
      */
     @Override
     public void createCar(Car car) {
-        cars.add(car);
+        cars.put(car.getId(), car);
     }
 
     /**
      * Retrieves all cars in the repository.
      *
-     * @return a list of all cars
+     * @return a map of all cars
      */
     @Override
-    public List<Car> findAllCars() {
-        return new ArrayList<>(cars);
+    public Map <Integer,Car > findAllCars() {
+        return new HashMap<>(cars);
     }
 
     /**
@@ -46,16 +49,16 @@ public class CarRepositoryImpl implements CarRepository {
      * @param brand    the brand of the car (nullable)
      * @param model    the model of the car (nullable)
      * @param maxPrice the maximum price of the car (nullable)
-     * @return a list of cars that match the criteria
+     * @return a map of cars that match the criteria
      */
     @Override
-    public List<Car> findBy(String brand, String model, Integer maxPrice) {
-        List<Car> result = new ArrayList<>();
-        for (Car car : cars) {
-            if ((brand == null || car.getMarkName().equalsIgnoreCase(brand)) &&
-                    (model == null || car.getModelName().equalsIgnoreCase(model)) &&
-                    (maxPrice == null || car.getPrice() <= maxPrice)) {
-                result.add(car);
+    public Map<Integer,Car> findBy(String brand, String model, Integer maxPrice) {
+        Map<Integer, Car> result = new HashMap<>();
+        for (Map.Entry<Integer,Car> entry : findAllCars().entrySet() ) {
+            if ((brand == null || entry.getValue().getMarkName().equalsIgnoreCase(brand)) &&
+                    (model == null || entry.getValue().getModelName().equalsIgnoreCase(model)) &&
+                    (maxPrice == null || entry.getValue().getPrice() <= maxPrice)) {
+                result.put(entry.getKey(), entry.getValue());
             }
         }
         return result;
@@ -69,15 +72,10 @@ public class CarRepositoryImpl implements CarRepository {
      */
     @Override
     public Car reservation(Integer id) {
-        for (Car car : cars) {
-            if (car.getId().equals(id)) {
-                if (car.getCount() > 0) {
-                    car.setCount(car.getCount() - 1);
-                    return car;
-                } else {
-                    return null;
-                }
-            }
+        Car car = cars.get(id);
+        if (car.getId() != null && car.getCount() > 0) {
+            car.setCount(car.getCount() - 1);
+            return car;
         }
         return null;
     }
@@ -91,8 +89,10 @@ public class CarRepositoryImpl implements CarRepository {
      */
     @Override
     public boolean updateCar(Integer id, Car updatedCar) {
-        for (int i = 0; i < cars.size(); i++) {
-            Car car = cars.get(i);
+            Car car = cars.get(id);
+        if (car == null) {
+            return false;
+        }
             if (car.getId().equals(id)) {
                 if (updatedCar.getMarkName() != null) {
                     car.setMarkName(updatedCar.getMarkName());
@@ -117,7 +117,6 @@ public class CarRepositoryImpl implements CarRepository {
                 }
                 AuditLog.log("car with id " + id + "was updated with " + updatedCar);
                 return true;
-            }
         }
         return false;
     }
@@ -128,7 +127,7 @@ public class CarRepositoryImpl implements CarRepository {
      */
     @Override
     public void deleteCar(Integer id) {
-        cars.removeIf(car -> car.getId().equals(id));
+        cars.remove(id);
     }
 
 }

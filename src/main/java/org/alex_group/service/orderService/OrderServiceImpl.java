@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Logger;
 /**
@@ -46,16 +47,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void createBuyOrder(Scanner scanner) {
         scanner.nextLine();
-        List<Car> availableCars = carRepository.findAllCars();
+        Map<Integer, Car> availableCars = carRepository.findAllCars();
         if (availableCars.isEmpty()) {
             System.out.println("Нет доступных автомобилей.");
             return;
         }
 
         System.out.println("Доступные автомобили:");
-        availableCars.forEach(System.out::println);
+        availableCars.forEach((id, car) -> System.out.println("айди автомобиля " + id + " автомобиль " + car));
 
-        System.out.println("Введите номер автомобиля:");
+        System.out.println("Введите айди автомобиля:");
         while (true) {
             if (scanner.hasNextInt()) {
                 int id = scanner.nextInt();

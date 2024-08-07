@@ -1,7 +1,9 @@
 package org.alex_group.model.cars;
 
 import java.util.Objects;
-
+/**
+ * The Car class represents a car with various attributes.
+ */
 public class Car {
     private static int nextId = 1;
     private Integer id;
@@ -13,6 +15,17 @@ public class Car {
     private String colour;
     private Integer count;
 
+    /**
+     * Constructs a new Car object with the specified parameters.
+     *
+     * @param markName          the make of the car
+     * @param modelName         the model of the car
+     * @param productionYear    the production year of the car
+     * @param price             the price of the car
+     * @param productionCountry the production country of the car
+     * @param colour            the colour of the car
+     * @param count             the count of the car
+     */
     public Car(String markName, String modelName, Integer productionYear, Integer price,
                String productionCountry, String colour,Integer count) {
         this.id = nextId++;
