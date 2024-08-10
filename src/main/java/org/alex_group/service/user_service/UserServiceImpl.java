@@ -3,7 +3,7 @@ package org.alex_group.service.user_service;
 import org.alex_group.model.users.User;
 import org.alex_group.model.users.user_context.UserContext;
 import org.alex_group.repository.userRepo.UserRepository;
-import org.alex_group.users_menu.PrintMenu;
+import org.alex_group.users_menu.application_context.PrintMenu;
 
 import java.util.List;
 import java.util.Scanner;

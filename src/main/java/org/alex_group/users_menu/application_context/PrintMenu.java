@@ -1,4 +1,4 @@
-package org.alex_group.users_menu;
+package org.alex_group.users_menu.application_context;
 
 public interface PrintMenu {
     static void updateUserInfoMenu() {
@@ -19,7 +19,6 @@ public interface PrintMenu {
                 """ 
                         1. Регистрация в сервисе
                         2. Авторизация в сервисе
-                        3. Войти в личный кабинет
                         """
         );
     }

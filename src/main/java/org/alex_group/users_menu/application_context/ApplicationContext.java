@@ -6,12 +6,17 @@ import org.alex_group.repository.orderRepo.OrderRepo;
 import org.alex_group.repository.orderRepo.OrderRepoImpl;
 import org.alex_group.repository.userRepo.UserRepository;
 import org.alex_group.repository.userRepo.UserRepositoryImpl;
+import org.alex_group.service.auth_service.AuthService;
+import org.alex_group.service.auth_service.AuthServiceImpl;
 import org.alex_group.service.car_service.CarService;
 import org.alex_group.service.car_service.CarServiceImpl;
 import org.alex_group.service.orderService.OrderService;
 import org.alex_group.service.orderService.OrderServiceImpl;
+import org.alex_group.service.register_service.RegistrationService;
+import org.alex_group.service.register_service.RegistrationServiceImpl;
 import org.alex_group.service.user_service.UserService;
 import org.alex_group.service.user_service.UserServiceImpl;
+
 /**
  * Singleton class that provides application-wide access to services and repositories.
  */
@@ -24,6 +29,8 @@ public class ApplicationContext {
     private final CarService carService;
     private final OrderRepo orderRepo;
     private final OrderService orderService;
+    private final RegistrationService registrationService;
+    private final AuthService authService;
 
     /**
      * Private constructor to initialize repositories and services.
@@ -36,6 +43,8 @@ public class ApplicationContext {
         carService = new CarServiceImpl(carRepository);
         orderRepo = new OrderRepoImpl();
         orderService = new OrderServiceImpl(orderRepo, carRepository);
+        registrationService = new RegistrationServiceImpl(userRepository);
+        authService = new AuthServiceImpl(userRepository);
     }
 
     /**
@@ -72,5 +81,13 @@ public class ApplicationContext {
      */
     public OrderService getOrderService() {
         return orderService;
+    }
+
+    public RegistrationService getRegistrationService() {
+        return registrationService;
+    }
+
+    public AuthService getAuthService() {
+        return authService;
     }
 }
