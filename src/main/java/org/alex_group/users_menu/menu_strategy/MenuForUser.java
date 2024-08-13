@@ -4,8 +4,19 @@ import org.alex_group.users_menu.application_context.PrintMenu;
 
 import java.util.Scanner;
 
+/**
+ * The {@code MenuForUser} class implements the {@link MenuStrategy} interface
+ * to handle the menu options available to a regular user. It provides functionality
+ * for users to perform various operations through the menu.
+ */
 public class MenuForUser implements MenuStrategy{
 
+    /**
+     * Displays the user menu and handles user input to perform
+     * various user-related operations.
+     *
+     * @param scanner the {@code Scanner} used to read user input
+     */
     @Override
     public void display(Scanner scanner) {
         label:

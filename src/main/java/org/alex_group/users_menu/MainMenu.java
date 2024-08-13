@@ -7,10 +7,11 @@ import org.alex_group.model.users.user_context.UserContext;
 import org.alex_group.users_menu.application_context.PrintMenu;
 import org.alex_group.users_menu.menu_strategy.*;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class MainMenu implements MenuInit {
-    public static void mainMenu(Scanner scanner) throws UserNotFoundEx {
+    public static void mainMenu(Scanner scanner) throws UserNotFoundEx, SQLException {
 
         System.out.println("Добро пожаловать в наш автосалон, для начала вам необходимо зарегистрироваться," +
                 " либо пройти авторизацию по логину и паролю, выберите из списка в меню ");

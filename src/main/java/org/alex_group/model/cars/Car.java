@@ -5,7 +5,6 @@ import java.util.Objects;
  * The Car class represents a car with various attributes.
  */
 public class Car {
-    private static int nextId = 1;
     private Integer id;
     private String markName;
     private String modelName;
@@ -28,7 +27,6 @@ public class Car {
      */
     public Car(String markName, String modelName, Integer productionYear, Integer price,
                String productionCountry, String colour,Integer count) {
-        this.id = nextId++;
         this.markName = markName;
         this.modelName = modelName;
         this.productionYear = productionYear;

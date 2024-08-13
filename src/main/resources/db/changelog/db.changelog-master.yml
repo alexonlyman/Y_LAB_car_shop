@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - include:
+      file: db/migration/V1__Create_all_tables.sql
+  - include:
+      file: db/migration/V2__FIlling_schemas_with_data.sql
+
+
+

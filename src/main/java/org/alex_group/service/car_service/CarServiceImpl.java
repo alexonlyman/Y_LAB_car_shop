@@ -3,7 +3,7 @@ package org.alex_group.service.car_service;
 import org.alex_group.model.cars.Car;
 import org.alex_group.repository.carRepo.CarRepository;
 
-import java.util.List;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Scanner;
 /**
@@ -12,10 +12,11 @@ import java.util.Scanner;
 public class CarServiceImpl implements CarService {
     private final CarRepository repository;
 
+
     /**
      * Constructs a CarServiceImpl with the given CarRepository.
      *
-     * @param repository the CarRepository to be used for car operations
+     * @param repository the CarRepository to be used for car operations. Must not be {@code null}.
      */
     public CarServiceImpl(CarRepository repository) {
         this.repository = repository;
@@ -24,7 +25,7 @@ public class CarServiceImpl implements CarService {
     /**
      * Retrieves all cars from the repository and prints them.
      *
-     * @return a map of all cars
+     * @return a map of all cars, where the key is the car ID and the value is the Car object.
      */
     @Override
     public Map<Integer,Car> findAllCars() {
@@ -36,10 +37,10 @@ public class CarServiceImpl implements CarService {
     /**
      * Creates a new car based on user input from a Scanner.
      *
-     * @param scanner the Scanner to read user input
+     * @param scanner the Scanner to read user input. Must not be {@code null}.
      */
     @Override
-    public void createCar(Scanner scanner) {
+    public void createCar(Scanner scanner) throws SQLException {
         scanner.nextLine();
         System.out.println("Введите марку автомобиля:");
         String markName = scanner.nextLine();
@@ -186,7 +187,7 @@ public class CarServiceImpl implements CarService {
             }
         }
 
-        Map<Integer,Car> result = repository.findBy(brand, mark, maxPrice);
+        Map<Integer, Car> result = repository.findBy(brand, mark, maxPrice);
 
         if (result.isEmpty()) {
             System.out.println("По вашему запросу ничего не найдено.");

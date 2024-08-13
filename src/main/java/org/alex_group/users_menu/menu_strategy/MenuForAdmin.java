@@ -2,11 +2,25 @@ package org.alex_group.users_menu.menu_strategy;
 
 import org.alex_group.users_menu.application_context.PrintMenu;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
+/**
+ * The {@code MenuForAdmin} class implements the {@link MenuStrategy} interface
+ * to provide administrative menu options. It handles user input and performs
+ * various admin-related operations based on the user's choice.
+ */
 public class MenuForAdmin implements MenuStrategy {
+
+    /**
+     * Displays the admin menu and handles user input to perform
+     * administrative operations.
+     *
+     * @param scanner the {@code Scanner} used to read user input
+     * @throws SQLException if a database access error occurs
+     */
     @Override
-    public void display(Scanner scanner) {
+    public void display(Scanner scanner) throws SQLException {
         label:
         while (true) {
             PrintMenu.printMenuForAdmin();

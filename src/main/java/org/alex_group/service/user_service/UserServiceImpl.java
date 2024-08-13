@@ -5,7 +5,8 @@ import org.alex_group.model.users.user_context.UserContext;
 import org.alex_group.repository.userRepo.UserRepository;
 import org.alex_group.users_menu.application_context.PrintMenu;
 
-import java.util.List;
+import java.sql.SQLException;
+import java.util.Map;
 import java.util.Scanner;
 /**
  * Implementation of the UserService interface that handles user-related operations.
@@ -85,8 +86,12 @@ public class UserServiceImpl implements UserService {
      * @return a list of all users
      */
     @Override
-    public List<User> findAllUsers() {
-        userRepository.findAllUsers().forEach(System.out::println);
-        return userRepository.findAllUsers();
+    public Map<Integer,User> findAllUsers() throws SQLException {
+        Map<Integer, User> map = userRepository.findAllUsers();
+        for (Map.Entry<Integer, User> entry : map.entrySet()) {
+            System.out.println("ID: " + entry.getKey() + ", User: " + entry.getValue());
+
+        }
+        return map;
     }
 }

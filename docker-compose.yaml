@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: test_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: car_shop
+      POSTGRES_USER: alex
+      POSTGRES_PASSWORD: password
+
+volumes:
+  postgres_data:

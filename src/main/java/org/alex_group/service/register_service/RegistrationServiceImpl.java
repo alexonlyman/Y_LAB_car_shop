@@ -5,12 +5,17 @@ import org.alex_group.model.users.User;
 import org.alex_group.model.users.roles.Roles;
 import org.alex_group.model.users.user_context.UserContext;
 import org.alex_group.repository.userRepo.UserRepository;
+import org.alex_group.utils.ConnectionUtil;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 /**
  * Implementation of the RegistrationService interface that handles user registration.
  */
-public class RegistrationServiceImpl implements RegistrationService{
+public class RegistrationServiceImpl implements RegistrationService {
     private final UserRepository repository;
 
     /**
@@ -28,7 +33,7 @@ public class RegistrationServiceImpl implements RegistrationService{
      * @param scanner the Scanner to read user input
      */
     @Override
-    public void registerUser(Scanner scanner) {
+    public void registerUser(Scanner scanner) throws SQLException {
         scanner.nextLine();
         System.out.println("Вы выбрали регистрацию");
         System.out.println("введите имя");
@@ -54,16 +59,31 @@ public class RegistrationServiceImpl implements RegistrationService{
         } else {
             user.setRole(Roles.USER);
         }
-        boolean isRegistred = repository.registration(user);
 
-        if (isRegistred) {
-            System.out.println("вы успешно зарегистрировались");
-            user.setAuth(true);
-            UserContext.setCurrentUser(user);
-            AuditLog.log("current user " + user);
-            scanner.nextLine();
-        } else {
-            System.out.println("регистрация неудачна");
+        String insertUserSql = "SELECT id FROM private_schema.t_user WHERE login = ?";
+        try (Connection connection = ConnectionUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(insertUserSql)) {
+            preparedStatement.setString(1,user.getLogin());
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int generatedId = resultSet.getInt("id");
+                    user.setId(generatedId);
+                    System.out.println("Регистрация успешна. Ваш ID: " + generatedId);
+                }
+            }
+
+            boolean isRegistred = repository.registration(user);
+
+            if (isRegistred) {
+                System.out.println("вы успешно зарегистрировались");
+                user.setIsAuth(true);
+                UserContext.setCurrentUser(user);
+                AuditLog.log("current user " + user);
+                scanner.nextLine();
+            } else {
+                System.out.println("регистрация неудачна");
+            }
         }
     }
 }

@@ -2,8 +2,9 @@ package org.alex_group.service.auth_service;
 
 import org.alex_group.exception.UserNotFoundEx;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public interface AuthService {
-    void auth(Scanner scanner) throws UserNotFoundEx;
+    void auth(Scanner scanner) throws UserNotFoundEx, SQLException;
 }
