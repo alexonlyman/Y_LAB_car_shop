@@ -2,14 +2,14 @@ package org.alex_group.service.car_service;
 
 import org.alex_group.model.cars.Car;
 
-import java.util.List;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Scanner;
 
 public interface CarService {
-    Map<Integer,Car> findAllCars();
+    Map<Integer, Car> findAllCars();
 
-    void createCar(Scanner scanner);
+    void createCar(Scanner scanner) throws SQLException;
 
     void updateCar(Scanner scanner);
 

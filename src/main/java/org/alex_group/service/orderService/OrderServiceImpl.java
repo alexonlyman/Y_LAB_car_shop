@@ -7,8 +7,8 @@ import org.alex_group.model.users.User;
 import org.alex_group.model.users.user_context.UserContext;
 import org.alex_group.repository.carRepo.CarRepository;
 import org.alex_group.repository.orderRepo.OrderRepo;
-import org.alex_group.service.auth_service.AuthServiceImpl;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -17,11 +17,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Logger;
+
 /**
  * Implementation of the OrderService interface that manages order-related operations.
  */
 public class OrderServiceImpl implements OrderService {
-    private static final Logger logger = Logger.getLogger(AuthServiceImpl.class.getName());
+    private static final Logger logger = Logger.getLogger(OrderServiceImpl.class.getName());
     private final OrderRepo orderRepo;
     private final CarRepository carRepository;
 
@@ -66,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
                 if (car == null) {
                     System.out.println("Автомобиль с таким номером не найден. Пожалуйста, попробуйте снова.");
                 } else {
-                    BuyOrder buyOrder = new BuyOrder(dateTime, currentUser, car);
+                    BuyOrder buyOrder = new BuyOrder(id,dateTime, currentUser, car);
                     orderRepo.createBuyOrder(buyOrder);
                     System.out.println("Заявка на автомобиль " + car + " создана");
                     logger.info("заявка " + buyOrder);
@@ -86,6 +87,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public void createServiceOrder(Scanner scanner) {
+        int id = 0;
         scanner.nextLine();
         System.out.println("""
                 Создать заявку на обслуживание автомобиля?
@@ -95,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
         if (scanner.hasNextLine()) {
             String answer = scanner.nextLine();
             if (answer.equals("да")) {
-                ServiceOrder serviceOrder = new ServiceOrder(currentUser, dateTime);
+                ServiceOrder serviceOrder = new ServiceOrder(id,currentUser, dateTime);
                 orderRepo.createServiceOrder(serviceOrder);
                 System.out.println("заявка создана");
             } else {
@@ -112,7 +114,7 @@ public class OrderServiceImpl implements OrderService {
      * @return true if the application was successfully processed, false otherwise
      */
     @Override
-    public boolean applicationProcessing(Scanner scanner) {
+    public boolean applicationProcessing(Scanner scanner) throws SQLException {
         List<BuyOrder> list = findAllBuyOrders();
         int id = scanner.nextInt();
         System.out.println("вы выбрали заявку под номером " + id + " одобрить ее? да/нет");
@@ -187,7 +189,7 @@ public class OrderServiceImpl implements OrderService {
      * @param scanner the Scanner to read user input
      */
     @Override
-    public void updateCarServiceRequest(Scanner scanner) {
+    public void updateCarServiceRequest(Scanner scanner) throws SQLException {
         System.out.println("список заявок " + findAllServiceOrders() + " что бы изменить статус выберите id");
         System.out.println("Введите ID заявки, статус которой вы хотите изменить (или 0 для выхода):");
         while (true) {
@@ -222,9 +224,10 @@ public class OrderServiceImpl implements OrderService {
      * @return a list of all buy orders
      */
     @Override
-    public List<BuyOrder> findAllBuyOrders() {
-        orderRepo.findAllBuyOrders().forEach(System.out::println);
-        return orderRepo.findAllBuyOrders();
+    public List<BuyOrder> findAllBuyOrders() throws SQLException {
+        List<BuyOrder> orders = orderRepo.findAllBuyOrders();
+        System.out.println(orders);
+        return orders;
     }
 
     /**
@@ -233,9 +236,11 @@ public class OrderServiceImpl implements OrderService {
      * @return a list of all service orders
      */
     @Override
-    public List<ServiceOrder> findAllServiceOrders() {
-        orderRepo.findAllServiceOrders().forEach(System.out::println);
-        return orderRepo.findAllServiceOrders();
+    public List<ServiceOrder> findAllServiceOrders() throws SQLException {
+        List<ServiceOrder> orders = orderRepo.findAllServiceOrders();
+        System.out.println(orders);
+        return orders;
+
     }
 
 

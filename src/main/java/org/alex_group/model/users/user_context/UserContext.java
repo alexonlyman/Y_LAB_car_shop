@@ -1,9 +1,12 @@
 package org.alex_group.model.users.user_context;
 
+
 import org.alex_group.model.users.User;
+
 /**
  * UserContext maintains the current authenticated user for the current thread.
  */
+
 public class UserContext {
 
     /**
