@@ -1,8 +1,6 @@
 databaseChangeLog:
   - include:
-      file: db/migration/V1__Create_all_tables.sql
+      file: db/migration/V1__creating_all_default_schemas.yaml
   - include:
-      file: db/migration/V2__FIlling_schemas_with_data.sql
-
-
+      file: db/migration/V2__updating_database.yaml
 

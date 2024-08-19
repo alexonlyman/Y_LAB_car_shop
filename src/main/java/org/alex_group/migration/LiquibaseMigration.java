@@ -5,9 +5,9 @@ import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
+import org.alex_group.utils.ConnectionUtil;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 /**
  * The LiquibaseMigration class provides a static method for applying Liquibase database migrations.
  * It connects to a PostgreSQL database and performs database schema updates based on the Liquibase changelog.
@@ -31,14 +31,10 @@ public class LiquibaseMigration {
      * @throws RuntimeException If there is an error connecting to the database or applying the migrations.
      */
     public static void migrate() {
-        try (Connection connection = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/car_shop",
-                "alex",
-                "password"
-        )) {
+        try (Connection connection = ConnectionUtil.getConnection()) {
             Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
 
-            Liquibase liquibase = new Liquibase("db/changelog/db.changelog-master.yml", new ClassLoaderResourceAccessor(), database);
+            Liquibase liquibase = new Liquibase("/db/changelog/db.changelog-master.yml", new ClassLoaderResourceAccessor(), database);
             liquibase.update();
         } catch (Exception e) {
             e.printStackTrace();

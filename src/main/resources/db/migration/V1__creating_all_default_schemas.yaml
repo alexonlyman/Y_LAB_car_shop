@@ -1,0 +1,175 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: alex
+      changes:
+        - sql:
+            sql: CREATE SCHEMA IF NOT EXISTS private_schema;
+
+  - changeSet:
+      id: 2
+      author: alex
+      changes:
+        - createTable:
+
+            tableName: t_car
+            schemaName: private_schema
+            columns:
+              - column:
+                  name: id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: mark_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: model_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: production_year
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: production_country
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: colour
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: count
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 3
+      author: alex
+      changes:
+        - createTable:
+            tableName: t_user
+            schemaName: private_schema
+            columns:
+              - column:
+                  name: id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: firstname
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: lastname
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: age
+                  type: INTEGER
+              - column:
+                  name: login
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 4
+      author: alex
+      changes:
+        - createTable:
+            tableName: t_buy_order
+            schemaName: private_schema
+
+            columns:
+              - column:
+                  name: id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: local_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: car_id
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: approve
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+                    defaultValueBoolean: false
+            foreignKeys:
+              - foreignKeyName: fk_buy_order_user
+                baseColumnNames: user_id
+                referencedTableName: private_schema.t_user
+                referencedColumnNames: id
+              - foreignKeyName: fk_buy_order_car
+                baseColumnNames: car_id
+                referencedTableName: private_schema.t_car
+                referencedColumnNames: id
+
+  - changeSet:
+      id: 5
+      author: alex
+      changes:
+        - createTable:
+            tableName: t_service_order
+            schemaName: private_schema
+
+            columns:
+              - column:
+                  name: id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: local_date_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: approve
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+                    defaultValueBoolean: false
+            foreignKeys:
+              - foreignKeyName: fk_service_order_user
+                baseColumnNames: user_id
+                referencedTableName: private_schema.t_user
+                referencedColumnNames: id

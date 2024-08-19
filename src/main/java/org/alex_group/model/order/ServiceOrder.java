@@ -20,8 +20,7 @@ public class ServiceOrder {
      * @param user          the user who made the service order
      * @param localDateTime the date and time when the service order was created
      */
-    public ServiceOrder( Integer id,User user, LocalDateTime localDateTime) {
-        this.id = id;
+    public ServiceOrder(User user, LocalDateTime localDateTime) {
         this.user = user;
         this.localDateTime = localDateTime;
     }

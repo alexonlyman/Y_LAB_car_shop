@@ -10,7 +10,7 @@ import org.alex_group.users_menu.menu_strategy.*;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class MainMenu implements MenuInit {
+public class MainMenu implements MenuStrategy {
     public static void mainMenu(Scanner scanner) throws UserNotFoundEx, SQLException {
 
         System.out.println("Добро пожаловать в наш автосалон, для начала вам необходимо зарегистрироваться," +
@@ -22,7 +22,7 @@ public class MainMenu implements MenuInit {
             context.getRegister().display(scanner);
         }
         if (choice == 2) {
-            context.getAuth().display(scanner);
+            context.getAuthMenu().display(scanner);
         }
 
         User currentUser = UserContext.getCurrentUser();
@@ -34,6 +34,11 @@ public class MainMenu implements MenuInit {
         } else {
             context.getMenuForUser().display(scanner);
         }
+
+    }
+
+    @Override
+    public void display(Scanner scanner) throws UserNotFoundEx, SQLException {
 
     }
 }

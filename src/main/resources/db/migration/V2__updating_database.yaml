@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: alex
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO private_schema.t_car (mark_name, model_name, production_year, price, production_country, colour, count) VALUES
+              ('Toyota', 'Corolla', 2022, 20000, 'Japan', 'Blue', 10),
+              ('Honda', 'Civic', 2021, 22000, 'Japan', 'Red', 8),
+              ('Ford', 'Mustang', 2023, 30000, 'USA', 'Black', 5);
+
+  - changeSet:
+      id: 2
+      author: alex
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO private_schema.t_user (firstname, lastname, age, login, password) VALUES
+              ('John', 'Doe', 30, 'john_doe', 'password123'),
+              ('Jane', 'Smith', 25, 'jane_smith', 'password456'),
+              ('Alice', 'Johnson', 35, 'alice_johnson', 'password789');
+
+  - changeSet:
+      id: 3
+      author: alex
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO private_schema.t_buy_order (local_date_time, user_id, car_id, approve) VALUES
+              ('2024-08-01 10:30:00', 1, 1, true),
+              ('2024-08-02 11:00:00', 2, 2, false),
+              ('2024-08-03 14:45:00', 3, 3, true);
+
+  - changeSet:
+      id: 4
+      author: alex
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO private_schema.t_service_order (user_id, local_date_time, approve) VALUES
+              (1, '2024-08-01 10:30:00', true),
+              (2, '2024-08-02 11:00:00', false),
+              (3, '2024-08-03 14:45:00', true);

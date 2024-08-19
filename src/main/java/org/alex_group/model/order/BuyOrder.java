@@ -23,8 +23,8 @@ public class BuyOrder {
      * @param user          the user who made the order
      * @param car           the car being ordered
      */
-    public BuyOrder(Integer id,LocalDateTime localDateTime, User user, Car car) {
-        this.id = id;
+    public BuyOrder(LocalDateTime localDateTime, User user, Car car) {
+
         this.localDateTime = localDateTime;
         this.user = user;
         this.car = car;
